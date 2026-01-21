@@ -1200,10 +1200,13 @@ async function loadPuzzlesAuto(){
     // (tee tämä vain kerran; jos sinulla on jo handler, lisää vain localStorage-rivi siihen)
     if(!puzzleSelect.dataset.rememberHooked){
       puzzleSelect.dataset.rememberHooked = "1";
-      puzzleSelect.addEventListener("change", ()=>{
-        const v = parseInt(puzzleSelect.value, 10);
-        if(Number.isFinite(v)) localStorage.setItem(LS_LAST, String(v));
-      });
+puzzleSelect.addEventListener("change", ()=>{
+  const v = parseInt(puzzleSelect.value, 10);
+  if(!Number.isFinite(v)) return;
+  localStorage.setItem(LS_LAST, String(v));
+  loadPuzzleIndex(v);
+});
+
     }
 
   }else{
