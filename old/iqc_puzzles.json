@@ -1,0 +1,1248 @@
+{
+  "meta": {
+    "game": "IQ Circuit",
+    "version": 1,
+    "exportedAt": "2026-01-20T17:59:31.959Z"
+  },
+  "puzzles": [
+    {
+      "id": "E001",
+      "level": "Expert",
+      "number": 1,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "046806ac",
+          "05544385",
+          "05553ac5",
+          "29390039"
+        ],
+        "dots": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            3,
+            0
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 1
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 2
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 1,
+          "c0": 5
+        },
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 2,
+          "c0": 0
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 1,
+          "c0": 2
+        },
+        {
+          "pid": 9,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 2,
+          "c0": 2
+        },
+        {
+          "pid": 10,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 1,
+          "c0": 4
+        },
+        {
+          "pid": 5,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 2,
+          "c0": 6
+        },
+        {
+          "pid": 8,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 5
+        },
+        {
+          "pid": 3,
+          "sideMode": "blank",
+          "rot": 180,
+          "r0": 0,
+          "c0": 0
+        }
+      ]
+    },
+    {
+      "id": "E049",
+      "level": "Expert",
+      "number": 49,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "6ac6ac6c",
+          "50156915",
+          "50053aa9",
+          "3aa92aa8"
+        ],
+        "dots": [
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            7
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 0,
+          "c0": 2
+        },
+        {
+          "pid": 6,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0
+        },
+        {
+          "pid": 10,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 1,
+          "c0": 0
+        },
+        {
+          "pid": 3,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 3,
+          "c0": 1
+        },
+        {
+          "pid": 9,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 0,
+          "c0": 3
+        },
+        {
+          "pid": 7,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 4
+        },
+        {
+          "pid": 5,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 2,
+          "c0": 4
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 3,
+          "c0": 6
+        },
+        {
+          "pid": 8,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 0,
+          "c0": 6
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 6
+        }
+      ]
+    },
+    {
+      "id": "E050",
+      "level": "Expert",
+      "number": 50,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "6aac2aa8",
+          "54056aac",
+          "55039005",
+          "39000029"
+        ],
+        "dots": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 5,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 0,
+          "c0": 6
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 0,
+          "c0": 4
+        },
+        {
+          "pid": 3,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 0,
+          "c0": 0
+        },
+        {
+          "pid": 8,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 0,
+          "c0": 3
+        },
+        {
+          "pid": 10,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 1,
+          "c0": 4
+        },
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 2,
+          "c0": 6
+        },
+        {
+          "pid": 4,
+          "sideMode": "blank",
+          "rot": 90,
+          "r0": 3,
+          "c0": 3
+        },
+        {
+          "pid": 9,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 2,
+          "c0": 0
+        },
+        {
+          "pid": 2,
+          "sideMode": "blank",
+          "rot": 180,
+          "r0": 1,
+          "c0": 2
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 1,
+          "c0": 0
+        }
+      ]
+    },
+    {
+      "id": "E051",
+      "level": "Expert",
+      "number": 51,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "06aac06c",
+          "052c5055",
+          "03c55015",
+          "00393aa9"
+        ],
+        "dots": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            6
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 8,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 1
+        },
+        {
+          "pid": 5,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 2,
+          "c0": 2
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 1,
+          "c0": 2
+        },
+        {
+          "pid": 6,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 3
+        },
+        {
+          "pid": 10,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 1,
+          "c0": 4
+        },
+        {
+          "pid": 3,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 3,
+          "c0": 5
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 1,
+          "c0": 6
+        },
+        {
+          "pid": 9,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 0,
+          "c0": 5
+        },
+        {
+          "pid": 1,
+          "sideMode": "blank",
+          "rot": 90,
+          "r0": 3,
+          "c0": 0
+        },
+        {
+          "pid": 4,
+          "sideMode": "blank",
+          "rot": 180,
+          "r0": 0,
+          "c0": 0
+        }
+      ]
+    },
+    {
+      "id": "E052",
+      "level": "Expert",
+      "number": 52,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "6aac6ac4",
+          "50055055",
+          "50695455",
+          "103a9391"
+        ],
+        "dots": [
+          [
+            0,
+            7
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            7
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 1,
+          "c0": 0
+        },
+        {
+          "pid": 10,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0
+        },
+        {
+          "pid": 6,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 2
+        },
+        {
+          "pid": 7,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 2,
+          "c0": 2
+        },
+        {
+          "pid": 9,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 1,
+          "c0": 3
+        },
+        {
+          "pid": 8,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 4
+        },
+        {
+          "pid": 5,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 2,
+          "c0": 6
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 1,
+          "c0": 5
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 7
+        },
+        {
+          "pid": 2,
+          "sideMode": "blank",
+          "rot": 180,
+          "r0": 2,
+          "c0": 1
+        }
+      ]
+    },
+    {
+      "id": "E053",
+      "level": "Expert",
+      "number": 53,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "686c006c",
+          "5053ac55",
+          "5052c115",
+          "103a9029"
+        ],
+        "dots": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            5
+          ],
+          [
+            2,
+            6
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 2,
+          "c0": 0
+        },
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0
+        },
+        {
+          "pid": 8,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 2,
+          "c0": 2
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 2,
+          "c0": 3
+        },
+        {
+          "pid": 5,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 0,
+          "c0": 2
+        },
+        {
+          "pid": 10,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 0,
+          "c0": 4
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 3,
+          "c0": 5
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 1,
+          "c0": 6
+        },
+        {
+          "pid": 9,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 0,
+          "c0": 5
+        },
+        {
+          "pid": 3,
+          "sideMode": "blank",
+          "rot": 180,
+          "r0": 1,
+          "c0": 1
+        }
+      ]
+    },
+    {
+      "id": "E054",
+      "level": "Expert",
+      "number": 54,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "6ac40004",
+          "5453aac5",
+          "55380695",
+          "39002929"
+        ],
+        "dots": [
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            3,
+            6
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": [
+        {
+          "pid": 8,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 0
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 1,
+          "c0": 0
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 2,
+          "c0": 2
+        },
+        {
+          "pid": 9,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 2,
+          "c0": 0
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 3,
+          "c0": 3
+        },
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 180,
+          "r0": 2,
+          "c0": 6
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 7
+        },
+        {
+          "pid": 5,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 1,
+          "c0": 5
+        },
+        {
+          "pid": 10,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 0,
+          "c0": 3
+        },
+        {
+          "pid": 3,
+          "sideMode": "blank",
+          "rot": 270,
+          "r0": 0,
+          "c0": 4
+        }
+      ]
+    },
+    {
+      "id": "M073",
+      "level": "Master",
+      "number": 73,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 4,
+          "locked": true
+        },
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 0,
+          "c0": 2,
+          "locked": true
+        },
+        {
+          "pid": 10,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 1,
+          "c0": 2,
+          "locked": true
+        },
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 3,
+          "c0": 4,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M074",
+      "level": "Master",
+      "number": 74,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 2,
+          "locked": true
+        },
+        {
+          "pid": 5,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 2,
+          "c0": 0,
+          "locked": true
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 3,
+          "c0": 2,
+          "locked": true
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 2,
+          "c0": 5,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M075",
+      "level": "Master",
+      "number": 75,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "maskHex": [
+          "00000680",
+          "00000540",
+          "00000050",
+          "0aa80038"
+        ],
+        "dots": [
+          [
+            0,
+            6
+          ],
+          [
+            1,
+            6
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            7
+          ]
+        ]
+      },
+      "givens": [
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 3,
+          "c0": 1
+        },
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 0,
+          "c0": 5
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 1,
+          "c0": 6
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 3,
+          "c0": 6
+        }
+      ]
+    },
+    {
+      "id": "M076",
+      "level": "Master",
+      "number": 76,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0,
+          "locked": true
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 0,
+          "c0": 6,
+          "locked": true
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 1,
+          "c0": 7,
+          "locked": true
+        },
+        {
+          "pid": 2,
+          "sideMode": "A",
+          "rot": 180,
+          "r0": 2,
+          "c0": 6,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M077",
+      "level": "Master",
+      "number": 77,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 10,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 1,
+          "c0": 1,
+          "locked": true
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 5,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M078",
+      "level": "Master",
+      "number": 78,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0,
+          "locked": true
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 90,
+          "r0": 0,
+          "c0": 4,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M088",
+      "level": "Master",
+      "number": 88,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0,
+          "locked": true
+        },
+        {
+          "pid": 5,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 2,
+          "c0": 3,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M089",
+      "level": "Master",
+      "number": 89,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 6,
+          "sideMode": "B",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0,
+          "locked": true
+        },
+        {
+          "pid": 7,
+          "sideMode": "B",
+          "rot": 270,
+          "r0": 0,
+          "c0": 4,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M090",
+      "level": "Master",
+      "number": 90,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 0,
+          "c0": 2,
+          "locked": true
+        },
+        {
+          "pid": 1,
+          "sideMode": "A",
+          "rot": 90,
+          "r0": 1,
+          "c0": 2,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "M091",
+      "level": "Master",
+      "number": 91,
+      "createdAt": "2026-01-20",
+      "goal": null,
+      "givens": [
+        {
+          "pid": 3,
+          "sideMode": "A",
+          "rot": 0,
+          "r0": 0,
+          "c0": 0,
+          "locked": true
+        },
+        {
+          "pid": 4,
+          "sideMode": "A",
+          "rot": 270,
+          "r0": 3,
+          "c0": 3,
+          "locked": true
+        }
+      ],
+      "solution": []
+    },
+    {
+      "id": "W097",
+      "level": "Wizard",
+      "number": 97,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "dots": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            3,
+            2
+          ],
+          [
+            3,
+            4
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": []
+    },
+    {
+      "id": "W098",
+      "level": "Wizard",
+      "number": 98,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "dots": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            7
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": []
+    },
+    {
+      "id": "W099",
+      "level": "Wizard",
+      "number": 99,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "dots": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            0
+          ],
+          [
+            3,
+            7
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": []
+    },
+    {
+      "id": "W100",
+      "level": "Wizard",
+      "number": 100,
+      "createdAt": "2026-01-20",
+      "goal": {
+        "rows": 4,
+        "cols": 8,
+        "dots": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      },
+      "givens": [],
+      "solution": []
+    }
+  ]
+}

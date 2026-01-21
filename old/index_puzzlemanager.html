@@ -1,0 +1,1281 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IQ Circuit – Pulmaeditori (4×8)</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#121a24;
+      --panel2:#0f1620;
+      --text:#e7eef8;
+      --muted:#a9b7c7;
+      --line:rgba(255,255,255,.14);
+      --cell:56px;
+      --gap:6px;
+      --radius:14px;
+
+      --wire: rgba(255, 235, 120, .95);
+      --wire2: rgba(255, 235, 120, .55);
+      --dot: rgba(255, 235, 120, .98);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% 10%, #16263a 0%, var(--bg) 50%, #070a0d 100%);
+      color:var(--text);
+    }
+    header{
+      padding:14px 16px 8px 16px;
+      display:flex;
+      align-items:baseline;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    header h1{ font-size:16px; margin:0; font-weight:800; letter-spacing:.2px; }
+    header .sub{ color:var(--muted); font-size:13px; }
+
+    .wrap{
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:14px;
+      padding:0 16px 18px 16px;
+      align-items:start;
+    }
+    @media (max-width: 1040px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 35px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:12px 12px 10px 12px;
+      background: rgba(0,0,0,.15);
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .card .hd .title{
+      font-size:14px;
+      font-weight:800;
+    }
+    .card .hd .hint{
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .card .bd{ padding:12px; }
+
+    /* BOARD */
+    .boardWrap{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:14px 10px 16px 10px;
+    }
+    .board{
+      display:grid;
+      grid-template-columns: repeat(8, var(--cell));
+      grid-template-rows: repeat(4, var(--cell));
+      gap: var(--gap);
+      padding:10px;
+      border-radius: 18px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.14);
+      position:relative;
+      user-select:none;
+      touch-action: manipulation;
+    }
+    .sq{
+      width:var(--cell);
+      height:var(--cell);
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      position:relative;
+      cursor:pointer;
+      overflow:hidden;
+    }
+    .sq:hover{ outline:2px solid rgba(123,212,255,.25); outline-offset: 1px; }
+    .sq.occ{
+      background: rgba(123,212,255,.12);
+      border-color: rgba(123,212,255,.34);
+    }
+    .sq .pid{
+      position:absolute;
+      top:6px; left:7px;
+      font-weight:900;
+      font-size:13px;
+      opacity:.85;
+      text-shadow: 0 1px 0 rgba(0,0,0,.35);
+      pointer-events:none;
+    }
+    .sq .svg{
+      position:absolute; inset:0;
+      pointer-events:none;
+    }
+
+    .status{
+      color: var(--muted);
+      font-size: 12px;
+      padding: 0 12px 10px 12px;
+    }
+
+    /* TRAY */
+    .tray{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    .pieceCard{
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding:10px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:8px;
+      transition: transform .08s ease, border-color .12s ease, background .12s ease;
+    }
+    .pieceCard:hover{ transform: translateY(-1px); border-color: rgba(123,212,255,.35); }
+    .pieceCard.used{
+      opacity:.45;
+      filter: grayscale(.2);
+    }
+    .pieceCard.selected{
+      outline:2px solid rgba(123,212,255,.55);
+      outline-offset:2px;
+      border-color: rgba(123,212,255,.55);
+      background: rgba(123,212,255,.10);
+    }
+    .rowTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .pidBig{
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:.3px;
+    }
+    .meta{
+      color: var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .btnRow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    button{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 10px;
+      padding:7px 9px;
+      font-size:12px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    button:hover{ border-color: rgba(123,212,255,.35); }
+    button:active{ transform: translateY(1px); }
+    button.small{ padding:6px 8px; font-size:12px; }
+    button.danger{ background: rgba(255,80,80,.10); border-color: rgba(255,80,80,.28); }
+    button.danger:hover{ border-color: rgba(255,80,80,.45); }
+    button.alt{ background: rgba(123,212,255,.10); border-color: rgba(123,212,255,.28); }
+
+    .thumb{
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      padding:8px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      cursor:pointer;
+      user-select:none;
+      min-height: 84px;
+    }
+
+
+    .note{
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.35;
+      margin-top:10px;
+    }
+    code{ color: rgba(255,255,255,.88); }
+  </style>
+</head>
+<body>
+<header>
+  <h1>IQ Circuit – Pulmaeditori</h1>
+  <div class="sub">4×8 ruudukko • klikkaa A/B-miniatyyria: 1) valitse 2) kierrä 90° myötäpäivään • klikkaa laudalla olevaa palaa = poista • Shift+klikkaus laudalla = lukitse/avaa (Master)</div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="hd">
+      <div class="title">Pelialue (4×8)</div>
+      <div class="hint">Aseta valittu pala klikkaamalla ruutua</div>
+    </div>
+    <div class="status" id="status">Valitse pala oikealta.</div>
+    <div class="boardWrap">
+      <div class="board" id="board"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hd">
+      <div class="title">Palat</div>
+      <div class="hint">Jokainen pala vain kerran</div>
+    </div>
+    <div class="bd">
+      <div class="tray" id="tray"></div>
+      <div class="note">
+        <div><b>Blank</b>-tila vain paloille 1–4 (tyhjiä ruutuja, ei johtoa).</div>
+        <div>Palat 8 ja 10: B-puolella muoto muuttuu (peilikuva), kuten fyysisessä palassa.</div>
+      </div>
+      <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="danger" id="clearBtn">Tyhjennä lauta</button>
+        <button id="checkBtn">Tarkista</button>
+      </div>
+
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,.10);">
+        <div style="font-weight:900; font-size:13px; margin-bottom:8px;">Pulmat</div>
+
+        <div style="display:grid; grid-template-columns: 1fr; gap:8px;">
+          <select id="puzzleSelect" style="width:100%; padding:10px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); color: var(--text);"></select>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+            <select id="puzzleLevel" style="width:100%; padding:10px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); color: var(--text);">
+              <option value="Expert">Expert</option>
+              <option value="Master">Master</option>
+            </select>
+            <input id="puzzleNumber" type="number" min="1" max="999" placeholder="Numero" style="width:100%; padding:10px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); color: var(--text);" />
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="small" id="newExpertBtn">Uusi Expert</button>
+            <button class="small" id="newMasterBtn">Uusi Master</button>
+            <button class="small alt" id="savePuzzleBtn">Tallenna</button>
+            <button class="small danger" id="deletePuzzleBtn">Poista</button>
+          </div>
+
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="small" id="exportBtn">Vie JSON</button>
+            <button class="small" id="importBtn">Tuo JSON</button>
+            <input id="importFile" type="file" accept="application/json" style="display:none" />
+          </div>
+
+          <div class="note" style="margin-top:6px;">
+            <div><b>Expert</b>: tallennetaan vain tavoitejohdotus (ja sisäinen "solution" helpottaa editointia).</div>
+            <div><b>Master</b>: Shift+klikkaa laudalla pala lukituksi. Tallennuksessa lukitut palat menevät <code>givens</code>-listaan.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*** Directions bitmask ***/
+const N=1, E=2, S=4, W=8;
+
+/*** Piece library (shape + sides with wires/dots)
+ *  Notes:
+ *  - Most pieces keep same shape on both sides.
+ *  - Piece 8 and 10 have side.shape override for B side.
+ *  - Pieces 1-4 support "blank mode" in editor (occupied cells only, no wires).
+ ***/
+const SHAPES = {
+  I2: ["x","x"],
+  I3: ["x","x","x"],
+  O2: ["xx","xx"],
+  L2: ["xx","x-"],
+  L3: ["xx","x-","x-"],
+  T3: ["-x-","xxx"],
+  Z3: ["xx-","-xx"],
+};
+
+const PIECES = {
+  1: { shape: SHAPES.I2, sides: [
+    { wires: {"0,0": S, "0,1": N|S}, dots:["0,0"] },                          // A
+    { wires: {"0,0": 0, "0,1": W|E}, dots:[] }                                // B
+  ]},
+  2: { shape: SHAPES.I2, sides: [
+    { wires: {"0,0": S|E, "0,1": N}, dots:["0,1"] },                           // A
+    { wires: {"0,0": N|S, "0,1": N|S}, dots:[] }                               // B
+  ]},
+  3: { shape: SHAPES.I3, sides: [
+    { wires: {"0,0": S, "0,1": N|S, "0,2": N|S}, dots:["0,0"] },               // A
+    { wires: {"0,0": W|S, "0,1": N|S, "0,2": N|S}, dots:[] }                   // B
+  ]},
+  4: { shape: SHAPES.I3, sides: [
+    { wires: {"0,0": 0, "0,1": S, "0,2": N|E}, dots:["0,1"] },                 // A
+    { wires: {"0,0": 0, "0,1": W|S, "0,2": N|S}, dots:[] }                     // B
+  ]},
+  5: { shape: SHAPES.O2, sides: [
+    { wires: {"0,0": W|S, "0,1": N|E, "1,1": W|N, "1,0": S|N}, dots:[] },      // A
+    // B (korjattu yläjohto: ylhäältä -> oikealle, alajohto piste->oikealle)
+    { wires: {"0,0": N|E, "1,0": W|E, "0,1": E, "1,1": W|E}, dots:["0,1"] }    // B
+  ]},
+  6: { shape: SHAPES.L2, sides: [
+    { wires: {"0,1": S|N, "0,0": S|E, "1,0": W|E}, dots:[] },               // A
+    { wires: {"0,1": S|N, "0,0": S|E, "1,0": W}, dots:["1,0"] }                   // B
+  ]},
+  7: { shape: SHAPES.L2, sides: [
+    { wires: {"0,1": S|N, "0,0": S|E, "1,0": W|S}, dots:[] },               // A
+    { wires: {"0,1": S|N, "0,0": S|N, "1,0": S}, dots:["1,0"] }                // B
+  ]},
+  8: { shape: SHAPES.L3, sides: [
+    // A
+    { wires: {"1,0": W|E, "0,0": E|S, "0,1": N|S, "0,2": N|E}, dots:[] },
+    // B (peilimuoto)
+    { shape: ["xx","-x","-x"], wires: {"0,0": S|E, "1,0": W|S, "1,1": N|S, "1,2": N|E}, dots:[] }
+  ]},
+  9: { shape: SHAPES.T3, sides: [
+    // A
+    { wires: {"1,0": S|N, "0,1": N|E, "1,1": W|N, "2,1": 0}, dots:[] },
+    // B (kaksi pätkää)
+    { wires: {"1,0": N|E, "0,1": N|E, "1,1": W|E, "2,1": W|E}, dots:[] }
+  ]},
+  10:{ shape: SHAPES.Z3, sides: [
+    // A (muoto xx- / -xx) + reitti (0,0) S->E, (1,0) W<->E, muut blank
+    { shape: ["xx-","-xx"], wires: {"0,0": S|E, "1,0": W|E, "1,1": 0, "2,1": 0}, dots:[] },
+    // B (muoto -xx / xx-) + reitti sisään alhaalta (1,1) -> (1,0) -> piste (2,0)
+    { shape: ["-xx","xx-"], wires: {"1,1": N|S, "1,0": S|E, "2,0": W, "0,1": 0}, dots:["2,0"] }
+  ]},
+};
+
+/*** Helpers: parse shape -> cells list ***/
+function cellsFromShape(shape){
+  const cells = [];
+  const h = shape.length;
+  const w = Math.max(...shape.map(r => r.length));
+  for(let y=0;y<h;y++){
+    const row = shape[y];
+    for(let x=0;x<w;x++){
+      const ch = row[x] || "-";
+      if(ch === "x") cells.push([x,y]);
+    }
+  }
+  return { w, h, cells };
+}
+
+/*** Rotate (CW) a point within bounding box w×h ***/
+function rotPointCW(x,y,w,h,rot){
+  // rot in {0,90,180,270}
+  if(rot===0) return [x,y,w,h];
+  if(rot===90){
+    // (x,y)->(h-1-y, x), newW=h, newH=w
+    return [h-1-y, x, h, w];
+  }
+  if(rot===180){
+    return [w-1-x, h-1-y, w, h];
+  }
+  // 270
+  return [y, w-1-x, h, w];
+}
+
+/*** Rotate direction mask CW by rot ***/
+function rotMaskCW(mask, rot){
+  rot = ((rot%360)+360)%360;
+  if(rot===0) return mask;
+  const steps = rot/90;
+  let m = mask;
+  for(let i=0;i<steps;i++){
+    // N->E, E->S, S->W, W->N
+    let nm = 0;
+    if(m & N) nm |= E;
+    if(m & E) nm |= S;
+    if(m & S) nm |= W;
+    if(m & W) nm |= N;
+    m = nm;
+  }
+  return m;
+}
+
+/*** Get side data for piece: shape (possibly overridden) + wires/dots ***/
+function getSideData(pid, sideMode){
+  const p = PIECES[pid];
+  if(!p) throw new Error("Piece missing: "+pid);
+
+  // sideMode: "A" | "B" | "blank"
+  if(sideMode === "blank"){
+    // occupied cells as per that side's shape; no wires/dots
+    const sh = p.shape;
+    const base = cellsFromShape(sh);
+    return { shape: sh, w: base.w, h: base.h, cells: base.cells, wires: {}, dots: [] };
+  }
+
+  const sideIndex = (sideMode==="A") ? 0 : 1;
+  const side = p.sides[sideIndex];
+  const sh = side.shape || p.shape;
+  const base = cellsFromShape(sh);
+  return { shape: sh, w: base.w, h: base.h, cells: base.cells, wires: side.wires || {}, dots: side.dots || [] };
+}
+
+/*** Rotate side data to produce rotated cells + rotated wires/dots in rotated local coords ***/
+function getRotatedSide(pid, sideMode, rot){
+  const sd = getSideData(pid, sideMode);
+  const w0 = sd.w, h0 = sd.h;
+
+  // rotate cells
+  let rotW = w0, rotH = h0;
+  const cells = sd.cells.map(([x,y])=>{
+    const [rx,ry,nw,nh] = rotPointCW(x,y,w0,h0,rot);
+    rotW = nw; rotH = nh;
+    return [rx,ry];
+  });
+
+  // rotate wires
+  const wires = {};
+  for(const key of Object.keys(sd.wires)){
+    const [xStr,yStr] = key.split(",");
+    const x = parseInt(xStr,10), y = parseInt(yStr,10);
+    const [rx,ry,nw,nh] = rotPointCW(x,y,w0,h0,rot);
+    rotW = nw; rotH = nh;
+    const m = rotMaskCW(sd.wires[key]||0, rot);
+    wires[rx+","+ry] = m;
+  }
+
+  // rotate dots
+  const dots = sd.dots.map(k=>{
+    const [xStr,yStr] = k.split(",");
+    const x = parseInt(xStr,10), y = parseInt(yStr,10);
+    const [rx,ry,nw,nh] = rotPointCW(x,y,w0,h0,rot);
+    rotW = nw; rotH = nh;
+    return rx+","+ry;
+  });
+
+  return { w: rotW, h: rotH, cells, wires, dots };
+}
+
+/*** Board state ***/
+const ROWS=4, COLS=8;
+const boardEl = document.getElementById("board");
+const trayEl = document.getElementById("tray");
+const statusEl = document.getElementById("status");
+
+let selectedPid = 1;
+let placements = new Map(); // pid -> {pid, sideMode, rot, r0, c0}
+let lockedPids = new Set(); // Master: lukitut "givens"-palat (Shift+klikkaus laudalla)
+
+let currentPuzzleId = null; // valittu pulma (muokkausta varten)
+const PUZZLE_STORE_KEY = "iqc_puzzles_v1";
+let pieceUI = {};           // pid -> {sideMode, rot}
+for(let pid=1; pid<=10; pid++){
+  pieceUI[pid] = { sideMode: "A", rot: 0 };
+}
+
+/*** Blank allowed for 1..4 only ***/
+function blankAllowed(pid){ return pid>=1 && pid<=4; }
+
+/*** UI helpers ***/
+function setStatus(msg){ statusEl.textContent = msg; }
+
+/*** Build board squares ***/
+const sqEls = [];
+function buildBoard(){
+  boardEl.innerHTML = "";
+  sqEls.length = 0;
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const d = document.createElement("div");
+      d.className = "sq";
+      d.dataset.r = r;
+      d.dataset.c = c;
+      d.addEventListener("click", onBoardClick);
+      boardEl.appendChild(d);
+      sqEls.push(d);
+    }
+  }
+}
+buildBoard();
+
+/*** Render wire svg inside a square based on mask + dot ***/
+function wireSvg(mask, hasDot){
+  // svg viewBox 0..100
+  const stroke = getComputedStyle(document.documentElement).getPropertyValue('--wire').trim() || "rgba(255,235,120,.95)";
+  const stroke2 = getComputedStyle(document.documentElement).getPropertyValue('--wire2').trim() || "rgba(255,235,120,.55)";
+  const dotCol = getComputedStyle(document.documentElement).getPropertyValue('--dot').trim() || "rgba(255,235,120,.98)";
+
+  // center and edge points
+  const cx=50, cy=50;
+  const pts = {
+    N:[50,12],
+    E:[88,50],
+    S:[50,88],
+    W:[12,50]
+  };
+  const segs = [];
+  // draw to edges present
+  if(mask & N) segs.push(`M ${cx} ${cy} L ${pts.N[0]} ${pts.N[1]}`);
+  if(mask & E) segs.push(`M ${cx} ${cy} L ${pts.E[0]} ${pts.E[1]}`);
+  if(mask & S) segs.push(`M ${cx} ${cy} L ${pts.S[0]} ${pts.S[1]}`);
+  if(mask & W) segs.push(`M ${cx} ${cy} L ${pts.W[0]} ${pts.W[1]}`);
+
+  const pathMain = segs.length ? `<path d="${segs.join(" ")}" stroke="${stroke}" stroke-width="10" stroke-linecap="round" fill="none"/>` : "";
+  const pathGlow = segs.length ? `<path d="${segs.join(" ")}" stroke="${stroke2}" stroke-width="16" stroke-linecap="round" fill="none" opacity=".55"/>` : "";
+
+  const dot = hasDot ? `<circle cx="${cx}" cy="${cy}" r="10" fill="${dotCol}"/>` : "";
+  const dotRing = hasDot ? `<circle cx="${cx}" cy="${cy}" r="14" fill="none" stroke="${stroke2}" stroke-width="5" opacity=".55"/>` : "";
+
+  return `
+  <svg class="svg" viewBox="0 0 100 100" aria-hidden="true">
+    ${pathGlow}
+    ${pathMain}
+    ${dotRing}
+    ${dot}
+  </svg>`;
+}
+
+/*** Compute per-cell occupancy + mask/dot from placements ***/
+function computeBoardLayers(){
+  const occ = Array.from({length: ROWS}, ()=>Array(COLS).fill(null));
+  const mask = Array.from({length: ROWS}, ()=>Array(COLS).fill(0));
+  const dot  = Array.from({length: ROWS}, ()=>Array(COLS).fill(false));
+
+  for(const [pid, pl] of placements){
+    const rs = getRotatedSide(pid, pl.sideMode, pl.rot);
+    const dotSet = new Set(rs.dots);
+
+    // build a quick set of occupied local coords
+    const occLocal = new Set(rs.cells.map(([x,y])=>x+","+y));
+
+    for(const [x,y] of rs.cells){
+      const br = pl.r0 + y;
+      const bc = pl.c0 + x;
+      if(br<0||bc<0||br>=ROWS||bc>=COLS) continue;
+
+      occ[br][bc] = pid;
+
+      const k = x+","+y;
+      const m = rs.wires[k] || 0;
+      mask[br][bc] = m;
+      dot[br][bc] = dotSet.has(k);
+    }
+  }
+  return {occ, mask, dot};
+}
+
+/*** Render board ***/
+function renderBoard(){
+  const {occ, mask, dot} = computeBoardLayers();
+  for(const el of sqEls){
+    const r = parseInt(el.dataset.r,10);
+    const c = parseInt(el.dataset.c,10);
+
+    const pid = occ[r][c];
+    el.classList.toggle("occ", !!pid);
+
+    const m = mask[r][c] || 0;
+    const hasDot = !!dot[r][c];
+
+    // content
+    el.innerHTML = "";
+    if(pid){
+      const tag = document.createElement("div");
+      tag.className = "pid";
+      tag.textContent = pid;
+      el.appendChild(tag);
+
+      if(lockedPids.has(pid)){
+        const lk = document.createElement("div");
+        lk.textContent = "🔒";
+        lk.style.position = "absolute";
+        lk.style.right = "6px";
+        lk.style.top = "4px";
+        lk.style.fontSize = "14px";
+        lk.style.opacity = ".95";
+        lk.style.pointerEvents = "none";
+        el.appendChild(lk);
+      }
+    }
+    el.insertAdjacentHTML("beforeend", wireSvg(m, hasDot));
+  }
+}
+
+/*** Mini preview (SVG) for a piece side/rot ***/
+function renderThumbSvg(pid, sideMode, rot){
+  const rs = getRotatedSide(pid, sideMode, rot);
+
+  const cell = 26;
+  const pad = 8;
+  const wPx = rs.w*cell + pad*2;
+  const hPx = rs.h*cell + pad*2;
+
+  const occSet = new Set(rs.cells.map(([x,y])=>x+","+y));
+  const dotSet = new Set(rs.dots);
+
+  let rects = "";
+  for(const [x,y] of rs.cells){
+    const rx = pad + x*cell;
+    const ry = pad + y*cell;
+    rects += `<rect x="${rx}" y="${ry}" width="${cell-2}" height="${cell-2}" rx="7"
+      fill="rgba(123,212,255,.14)" stroke="rgba(123,212,255,.30)" stroke-width="1"/>`;
+  }
+
+  const stroke = "rgba(255,235,120,.95)";
+  const stroke2 = "rgba(255,235,120,.55)";
+
+  let wires = "";
+  for(const [x,y] of rs.cells){
+    const key = x+","+y;
+    const m = rs.wires[key] || 0;
+    const hasDot = dotSet.has(key);
+    if(!m && !hasDot) continue;
+
+    const x0 = pad + x*cell;
+    const y0 = pad + y*cell;
+    const cx = x0 + (cell-2)/2;
+    const cy = y0 + (cell-2)/2;
+
+    const edge = {
+      N:[cx, y0+3],
+      E:[x0+cell-5, cy],
+      S:[cx, y0+cell-5],
+      W:[x0+3, cy]
+    };
+
+    const segs = [];
+    if(m & N) segs.push(`M ${cx} ${cy} L ${edge.N[0]} ${edge.N[1]}`);
+    if(m & E) segs.push(`M ${cx} ${cy} L ${edge.E[0]} ${edge.E[1]}`);
+    if(m & S) segs.push(`M ${cx} ${cy} L ${edge.S[0]} ${edge.S[1]}`);
+    if(m & W) segs.push(`M ${cx} ${cy} L ${edge.W[0]} ${edge.W[1]}`);
+
+    if(segs.length){
+      wires += `<path d="${segs.join(" ")}" stroke="${stroke2}" stroke-width="8" stroke-linecap="round" fill="none" opacity=".55"/>`;
+      wires += `<path d="${segs.join(" ")}" stroke="${stroke}" stroke-width="5" stroke-linecap="round" fill="none"/>`;
+    }
+
+    if(hasDot){
+      wires += `<circle cx="${cx}" cy="${cy}" r="6" fill="${stroke}"/>`;
+      wires += `<circle cx="${cx}" cy="${cy}" r="9" fill="none" stroke="${stroke2}" stroke-width="4" opacity=".55"/>`;
+    }
+  }
+
+  return `<svg viewBox="0 0 ${wPx} ${hPx}" aria-hidden="true">
+    ${rects}
+    ${wires}
+  </svg>`;
+}
+
+
+/*** Render tray ***/
+function renderTray(){
+  trayEl.innerHTML = "";
+  for(let pid=1; pid<=10; pid++){
+    const ui = pieceUI[pid];
+    const used = placements.has(pid);
+
+    const card = document.createElement("div");
+    card.className = "pieceCard" + (used ? " used":"") + (pid===selectedPid ? " selected":"");
+    card.dataset.pid = pid;
+
+    const top = document.createElement("div");
+    top.className = "rowTop";
+    top.innerHTML = `<div class="pidBig">Pala ${pid}</div>
+      <div class="meta"><span>valittu: ${ui.sideMode}</span><span>•</span><span>${ui.rot}°</span></div>`;
+    card.appendChild(top);
+
+    // --- two thumbs: A and B ---
+    const thumbsRow = document.createElement("div");
+    thumbsRow.style.display = "grid";
+    thumbsRow.style.gridTemplateColumns = blankAllowed(pid) ? "1fr 1fr 1fr" : "1fr 1fr";
+    thumbsRow.style.gap = "8px";
+
+    function makeThumb(label, sideMode){
+      const t = document.createElement("div");
+      t.className = "thumb";
+      t.style.minHeight = "78px";
+      t.title = `Klikkaa: valitse ${label} + kierrä 90° myötäpäivään`;
+      t.innerHTML = `<div style="position:absolute; top:6px; right:8px; font-weight:900; font-size:12px; opacity:.85;">${label}</div>`
+        + renderThumbSvg(pid, sideMode, ui.rot);
+      t.style.position = "relative";
+      t.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        if(used) return;
+
+        const isAlreadySelected = (selectedPid === pid && ui.sideMode === sideMode);
+
+        // 1) Ensimmäinen klikkaus: vain valinta (ei kiertoa)
+        if(!isAlreadySelected){
+          selectedPid = pid;
+          ui.sideMode = sideMode;
+          renderTray();
+          renderBoard();
+          setStatus(`Valittu pala ${pid} (${ui.sideMode}, ${ui.rot}°). Klikkaa samaa miniatyyria uudestaan kiertääksesi.`);
+          return;
+        }
+
+        // 2) Sama pala + sama puoli jo valittuna -> kierrä myötäpäivään
+        ui.rot = (ui.rot + 90) % 360;
+        renderTray();
+        renderBoard();
+        setStatus(`Valittu pala ${pid} (${ui.sideMode}, ${ui.rot}°). Klikkaa pelialuetta asettaaksesi.`);
+      });
+      // highlight selected side
+      if(ui.sideMode === sideMode){
+        t.style.outline = "2px solid rgba(123,212,255,.55)";
+        t.style.outlineOffset = "2px";
+      }
+      return t;
+    }
+
+    thumbsRow.appendChild(makeThumb("A", "A"));
+    thumbsRow.appendChild(makeThumb("B", "B"));
+
+    // optional blank preview
+    if(blankAllowed(pid)){
+      const blank = document.createElement("div");
+      blank.className = "thumb";
+      blank.style.minHeight = "78px";
+      blank.style.position = "relative";
+      blank.title = "Klikkaa: valitse Blank + kierrä 90° myötäpäivään";
+      blank.innerHTML =
+        `<div style="position:absolute; top:6px; right:8px; font-weight:900; font-size:12px; opacity:.85;">BL</div>`
+        + renderThumbSvg(pid, "blank", ui.rot);
+      blank.addEventListener("click",(e)=>{
+        e.stopPropagation();
+        if(used) return;
+
+        const isAlreadySelected = (selectedPid === pid && ui.sideMode === "blank");
+
+        if(!isAlreadySelected){
+          selectedPid = pid;
+          ui.sideMode = "blank";
+          renderTray();
+          renderBoard();
+          setStatus(`Valittu pala ${pid} (blank, ${ui.rot}°). Klikkaa samaa miniatyyria uudestaan kiertääksesi.`);
+          return;
+        }
+
+        ui.rot = (ui.rot + 90) % 360;
+        renderTray();
+        renderBoard();
+        setStatus(`Valittu pala ${pid} (blank, ${ui.rot}°). Klikkaa pelialuetta asettaaksesi.`);
+      });
+      if(ui.sideMode === "blank"){
+        blank.style.outline = "2px solid rgba(123,212,255,.55)";
+        blank.style.outlineOffset = "2px";
+      }
+      thumbsRow.appendChild(blank);
+    }
+
+    card.appendChild(thumbsRow);
+
+    // (Ei tarvita A/B-kääntönappia, koska molemmat puolet näkyvät esikatseluissa.)
+
+    card.addEventListener("click", ()=>{
+      selectedPid = pid;
+      renderTray();
+      setStatus(`Valittu pala ${pid} (${pieceUI[pid].sideMode}, ${pieceUI[pid].rot}°). Klikkaa pelialuetta asettaaksesi.`);
+    });
+
+    trayEl.appendChild(card);
+  }
+}
+
+/*** ---------- Wire validation ("Tarkista") ---------- ***/
+function popcnt4(m){
+  let n = 0;
+  if(m & N) n++;
+  if(m & E) n++;
+  if(m & S) n++;
+  if(m & W) n++;
+  return n;
+}
+
+function validateWires(){
+  // 0) kaikki palat oltava asetettu
+  if(placements.size !== 10){
+    return { ok:false, reason:`Kaikkia paloja ei ole asetettu (${placements.size}/10).` };
+  }
+
+  const { mask, dot } = computeBoardLayers();
+
+  // 1) pisteiden määrä
+  let totalDots = 0;
+  for(let r=0;r<ROWS;r++) for(let c=0;c<COLS;c++) if(dot[r][c]) totalDots++;
+  if(!(totalDots === 2 || totalDots === 4 || totalDots === 6)){
+    return { ok:false, reason:`Pisteitä on ${totalDots}. Sallittu määrä on 2, 4 tai 6.` };
+  }
+
+  const OPP = { [N]:S, [E]:W, [S]:N, [W]:E };
+
+  // 2) paikalliset säännöt (jatkuvuus + piste/degree)
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const m = mask[r][c] || 0;
+      const hasDot = !!dot[r][c];
+      if(!m){
+        if(hasDot) return { ok:false, reason:`Piste ruudussa (${c},${r}) mutta ruudussa ei ole johtoa.` };
+        continue;
+      }
+      const deg = popcnt4(m);
+      if(deg >= 3) return { ok:false, reason:`Haarautuva johto ruudussa (${c},${r}) (degree ${deg}).` };
+      if(hasDot && deg !== 1) return { ok:false, reason:`Piste ruudussa (${c},${r}) mutta degree on ${deg} (pisteellä oltava 1).` };
+      if(!hasDot && deg === 1) return { ok:false, reason:`Avoin johdonpää ruudussa (${c},${r}) ilman pistettä.` };
+
+      const dirs = [N,E,S,W];
+      for(const d of dirs){
+        if(!(m & d)) continue;
+        let rr=r, cc=c;
+        if(d===N) rr--; else if(d===E) cc++; else if(d===S) rr++; else cc--;
+        if(rr<0||cc<0||rr>=ROWS||cc>=COLS){
+          return { ok:false, reason:`Johto menee ulos laudalta ruudusta (${c},${r}).` };
+        }
+        const nm = mask[rr][cc] || 0;
+        if(!(nm & OPP[d])){
+          return { ok:false, reason:`Johto ei jatku: (${c},${r}) → (${cc},${rr}) puuttuu vastapää.` };
+        }
+      }
+    }
+  }
+
+  // 3) komponentit: jokaisessa tasan 2 pistettä
+  const seen = Array.from({length: ROWS}, ()=>Array(COLS).fill(false));
+  function neighbors(r,c){
+    const out=[];
+    const m = mask[r][c] || 0;
+    if(m & N) out.push([r-1,c]);
+    if(m & E) out.push([r,c+1]);
+    if(m & S) out.push([r+1,c]);
+    if(m & W) out.push([r,c-1]);
+    return out;
+  }
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      if(seen[r][c]) continue;
+      if(!(mask[r][c]||0)) continue;
+      let q=[[r,c]];
+      seen[r][c]=true;
+      let compDots=0;
+      while(q.length){
+        const [rr,cc]=q.pop();
+        if(dot[rr][cc]) compDots++;
+        for(const [nr,nc] of neighbors(rr,cc)){
+          if(nr<0||nc<0||nr>=ROWS||nc>=COLS) continue;
+          if(seen[nr][nc]) continue;
+          if(!(mask[nr][nc]||0)) continue;
+          seen[nr][nc]=true;
+          q.push([nr,nc]);
+        }
+      }
+      if(compDots !== 2){
+        return { ok:false, reason:`Yhdessä johdossa on ${compDots} pistettä (tulee olla 2).` };
+      }
+    }
+  }
+
+  return { ok:true, reason:`OK: kaikki palat asetettu ja jokainen johto alkaa ja päättyy pisteeseen. Pisteitä ${totalDots}.` };
+}
+
+/*** ---------- Puzzle storage (CRUD + import/export) ---------- ***/
+function pad3(n){
+  n = Math.max(0, Math.min(999, n|0));
+  return String(n).padStart(3,"0");
+}
+
+function makePuzzleId(level, number){
+  const prefix = (level === "Master") ? "M" : "E";
+  return prefix + pad3(number);
+}
+
+function maskToHexRows(mask){
+  return mask.map(row => row.map(v => (v||0).toString(16)).join(""));
+}
+
+function hexRowsToMask(rows){
+  return rows.map(r => r.split("").map(ch => parseInt(ch,16)||0));
+}
+
+function loadPuzzleDB(){
+  try{
+    const raw = localStorage.getItem(PUZZLE_STORE_KEY);
+    if(!raw) return [];
+    const parsed = JSON.parse(raw);
+    if(Array.isArray(parsed)) return parsed;
+    if(parsed && Array.isArray(parsed.puzzles)) return parsed.puzzles;
+    return [];
+  }catch(_e){
+    return [];
+  }
+}
+
+function savePuzzleDB(puzzles){
+  localStorage.setItem(PUZZLE_STORE_KEY, JSON.stringify(puzzles));
+}
+
+function sortPuzzles(puzzles){
+  const order = {"Expert":0,"Master":1};
+  return puzzles.slice().sort((a,b)=>{
+    const oa = order[a.level] ?? 9;
+    const ob = order[b.level] ?? 9;
+    if(oa !== ob) return oa-ob;
+    return (a.number|0) - (b.number|0);
+  });
+}
+
+function refreshPuzzleSelect(){
+  const sel = document.getElementById("puzzleSelect");
+  const puzzles = sortPuzzles(loadPuzzleDB());
+  sel.innerHTML = "";
+  const opt0 = document.createElement("option");
+  opt0.value = "";
+  opt0.textContent = "(valitse pulma)";
+  sel.appendChild(opt0);
+  for(const p of puzzles){
+    const o = document.createElement("option");
+    o.value = p.id;
+    o.textContent = `${p.level} ${p.number} (${p.id})`;
+    sel.appendChild(o);
+  }
+  if(currentPuzzleId){
+    sel.value = currentPuzzleId;
+  }
+}
+
+function collectGoalFromBoard(){
+  const { mask, dot } = computeBoardLayers();
+  const dots = [];
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      if(dot[r][c]) dots.push([r,c]);
+    }
+  }
+  return { rows: ROWS, cols: COLS, maskHex: maskToHexRows(mask), dots };
+}
+
+function placementsToArray(){
+  return Array.from(placements.values()).map(p => ({
+    pid: p.pid,
+    sideMode: p.sideMode,
+    rot: p.rot,
+    r0: p.r0,
+    c0: p.c0
+  }));
+}
+
+function applyPlacementsArray(arr){
+  placements.clear();
+  lockedPids.clear();
+  for(const p of (arr||[])){
+    placements.set(p.pid, {
+      pid: p.pid,
+      sideMode: p.sideMode,
+      rot: p.rot,
+      r0: p.r0,
+      c0: p.c0
+    });
+  }
+  renderTray();
+  renderBoard();
+}
+
+function setInputsFromPuzzle(p){
+  document.getElementById("puzzleLevel").value = p.level || "Expert";
+  document.getElementById("puzzleNumber").value = p.number ?? "";
+}
+
+function loadPuzzleById(id){
+  const puzzles = loadPuzzleDB();
+  const p = puzzles.find(x => x.id === id);
+  if(!p){
+    setStatus("Pulmaa ei löydy.");
+    return;
+  }
+  currentPuzzleId = p.id;
+  setInputsFromPuzzle(p);
+
+  // Builderissa: käytetään ensisijaisesti solutionia (helpottaa editointia).
+  if(Array.isArray(p.solution) && p.solution.length){
+    applyPlacementsArray(p.solution);
+  }else if(Array.isArray(p.givens) && p.givens.length){
+    applyPlacementsArray(p.givens);
+  }else{
+    placements.clear();
+    lockedPids.clear();
+    renderTray();
+    renderBoard();
+  }
+
+  // lukot
+  if(Array.isArray(p.givens)){
+    lockedPids = new Set(p.givens.map(g=>g.pid));
+    renderBoard();
+  }
+
+  setStatus(`Ladattu: ${p.level} ${p.number} (${p.id}).`);
+  refreshPuzzleSelect();
+}
+
+function newPuzzle(level){
+  currentPuzzleId = null;
+  document.getElementById("puzzleLevel").value = level;
+  document.getElementById("puzzleNumber").value = "";
+  placements.clear();
+  lockedPids.clear();
+  renderTray();
+  renderBoard();
+  refreshPuzzleSelect();
+  setStatus(`Uusi ${level}-pulma: rakenna tavoite ja paina Tallenna.`);
+}
+
+function saveCurrentPuzzle(){
+  const level = document.getElementById("puzzleLevel").value;
+  const num = parseInt(document.getElementById("puzzleNumber").value, 10);
+  if(!num || num<1 || num>999){
+    setStatus("Anna pulman numero (1–999)." );
+    return;
+  }
+
+
+
+  const id = currentPuzzleId || makePuzzleId(level, num);
+  const goal = collectGoalFromBoard();
+  const solution = placementsToArray();
+  const givens = (level === "Master")
+    ? solution.filter(p => lockedPids.has(p.pid)).map(p => ({...p, locked:true}))
+    : [];
+
+  const puzzles = loadPuzzleDB();
+  const idx = puzzles.findIndex(p => p.id === id);
+  const obj = {
+    id,
+    level,
+    number: num,
+    createdAt: (idx>=0 ? puzzles[idx].createdAt : new Date().toISOString().slice(0,10)),
+    goal,
+    givens,
+    solution
+  };
+  if(idx>=0) puzzles[idx] = obj; else puzzles.push(obj);
+  savePuzzleDB(puzzles);
+  currentPuzzleId = id;
+  refreshPuzzleSelect();
+  setStatus(`Tallennettu: ${level} ${num} (${id}).`);
+}
+
+function deleteCurrentPuzzle(){
+  const selId = document.getElementById("puzzleSelect").value || currentPuzzleId;
+  if(!selId){ setStatus("Valitse pulma ensin."); return; }
+  const puzzles = loadPuzzleDB();
+  const idx = puzzles.findIndex(p => p.id === selId);
+  if(idx<0){ setStatus("Pulmaa ei löydy."); return; }
+  const p = puzzles[idx];
+  if(!confirm(`Poistetaanko ${p.level} ${p.number} (${p.id})?`)) return;
+  puzzles.splice(idx,1);
+  savePuzzleDB(puzzles);
+  if(currentPuzzleId === selId) currentPuzzleId = null;
+  refreshPuzzleSelect();
+  setStatus("Pulma poistettu.");
+}
+
+function exportPuzzleJSON(){
+  const puzzles = sortPuzzles(loadPuzzleDB());
+  const payload = {
+    meta: { game:"IQ Circuit", version:1, exportedAt: new Date().toISOString() },
+    puzzles
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "iqc_puzzles.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  setStatus(`Viety JSON (${puzzles.length} pulmaa).`);
+}
+
+async function importPuzzleJSON(file){
+  try{
+    const txt = await file.text();
+    const parsed = JSON.parse(txt);
+    const puzzles = Array.isArray(parsed) ? parsed : (parsed && parsed.puzzles) ? parsed.puzzles : null;
+    if(!Array.isArray(puzzles)) throw new Error("JSON ei sisällä puzzles-taulukkoa.");
+    // kevyt siivous
+    const clean = puzzles.filter(p => p && p.id && p.level && p.number);
+    savePuzzleDB(clean);
+    currentPuzzleId = null;
+    refreshPuzzleSelect();
+    setStatus(`Tuotu JSON: ${clean.length} pulmaa.`);
+  }catch(e){
+    setStatus("Tuonti epäonnistui: " + (e && e.message ? e.message : e));
+  }
+}
+
+/*** Placement validation ***/
+function canPlace(pid, sideMode, rot, r0, c0){
+  const rs = getRotatedSide(pid, sideMode, rot);
+
+  // occupied local cells
+  const cells = rs.cells;
+
+  // bounds + overlap
+  for(const [x,y] of cells){
+    const r = r0 + y;
+    const c = c0 + x;
+    if(r<0||c<0||r>=ROWS||c>=COLS) return false;
+    // check overlap with existing pieces
+    for(const [opid, pl] of placements){
+      if(opid === pid) continue;
+    }
+  }
+
+  // overlap check by building occ set once
+  const occ = Array.from({length: ROWS}, ()=>Array(COLS).fill(null));
+  for(const [opid, pl] of placements){
+    const ors = getRotatedSide(opid, pl.sideMode, pl.rot);
+    for(const [x,y] of ors.cells){
+      const r = pl.r0 + y;
+      const c = pl.c0 + x;
+      if(r>=0&&c>=0&&r<ROWS&&c<COLS) occ[r][c] = opid;
+    }
+  }
+
+  for(const [x,y] of cells){
+    const r = r0 + y;
+    const c = c0 + x;
+    if(occ[r][c] !== null) return false;
+  }
+  return true;
+}
+
+/*** Smart place: click cell (r,c) -> try to align piece so clicked cell becomes one of its occupied cells ***/
+function smartPlaceAt(pid, sideMode, rot, rClick, cClick){
+  const rs = getRotatedSide(pid, sideMode, rot);
+  // try each occupied local cell as target
+  for(const [lx,ly] of rs.cells){
+    const r0 = rClick - ly;
+    const c0 = cClick - lx;
+    if(canPlace(pid, sideMode, rot, r0, c0)){
+      placements.set(pid, {pid, sideMode, rot, r0, c0});
+      return true;
+    }
+  }
+  return false;
+}
+
+/*** Board click: place selected piece, or remove if clicking existing piece ***/
+function findPieceAt(r,c){
+  for(const [pid, pl] of placements){
+    const rs = getRotatedSide(pid, pl.sideMode, pl.rot);
+    const occSet = new Set(rs.cells.map(([x,y])=> (pl.r0+y)+","+(pl.c0+x)));
+    if(occSet.has(r+","+c)) return pid;
+  }
+  return null;
+}
+
+function onBoardClick(e){
+  const r = parseInt(e.currentTarget.dataset.r,10);
+  const c = parseInt(e.currentTarget.dataset.c,10);
+
+  const hitPid = findPieceAt(r,c);
+  if(hitPid){
+    // Shift+klik = lukitse/avaa (Master)
+    if(e.shiftKey){
+      if(lockedPids.has(hitPid)) lockedPids.delete(hitPid);
+      else lockedPids.add(hitPid);
+      renderBoard();
+      setStatus(lockedPids.has(hitPid)
+        ? `Pala ${hitPid} lukittu (Master-given).`
+        : `Pala ${hitPid} avattu (ei enää locked).`
+      );
+      return;
+    }
+
+    // normaali klik: poista pala
+    placements.delete(hitPid);
+    lockedPids.delete(hitPid);
+    selectedPid = hitPid;
+    renderTray();
+    renderBoard();
+    setStatus(`Poistettu pala ${hitPid}. Se on nyt valittuna (voit kiertää ja asettaa uudelleen).`);
+    return;
+  }
+
+  // place selected piece
+  const pid = selectedPid;
+  if(!pid){ setStatus("Valitse pala ensin."); return; }
+  if(placements.has(pid)){
+    setStatus(`Pala ${pid} on jo laudalla. Poista se klikkaamalla sitä laudalla.`);
+    return;
+  }
+
+  const ui = pieceUI[pid];
+  const ok = smartPlaceAt(pid, ui.sideMode, ui.rot, r, c);
+  if(!ok){
+    setStatus(`Palaa ${pid} ei voi asettaa tuohon (ei mahdu tai menee päällekkäin).`);
+    return;
+  }
+  renderTray();
+  renderBoard();
+  setStatus(`Asetettu pala ${pid} (${ui.sideMode}, ${ui.rot}°).`);
+}
+
+/*** Clear board ***/
+document.getElementById("clearBtn").addEventListener("click", ()=>{
+  placements.clear();
+  lockedPids.clear();
+  renderTray();
+  renderBoard();
+  setStatus("Lauta tyhjennetty.");
+});
+
+/*** Check wires ***/
+document.getElementById("checkBtn").addEventListener("click", ()=>{
+  const res = validateWires();
+  setStatus((res.ok ? "✅ " : "❌ ") + res.reason);
+});
+
+/*** Puzzle UI wiring ***/
+document.getElementById("newExpertBtn").addEventListener("click", ()=>newPuzzle("Expert"));
+document.getElementById("newMasterBtn").addEventListener("click", ()=>newPuzzle("Master"));
+document.getElementById("savePuzzleBtn").addEventListener("click", saveCurrentPuzzle);
+document.getElementById("deletePuzzleBtn").addEventListener("click", deleteCurrentPuzzle);
+document.getElementById("exportBtn").addEventListener("click", exportPuzzleJSON);
+
+document.getElementById("puzzleSelect").addEventListener("change", (e)=>{
+  const id = e.target.value;
+  if(!id){ currentPuzzleId = null; setStatus("Ei pulmaa valittuna."); return; }
+  loadPuzzleById(id);
+});
+
+document.getElementById("importBtn").addEventListener("click", ()=>{
+  document.getElementById("importFile").click();
+});
+document.getElementById("importFile").addEventListener("change", async (e)=>{
+  const f = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if(!f) return;
+  await importPuzzleJSON(f);
+});
+
+/*** Init ***/
+renderTray();
+renderBoard();
+refreshPuzzleSelect();
+setStatus(`Valittu pala ${selectedPid} (${pieceUI[selectedPid].sideMode}, ${pieceUI[selectedPid].rot}°). Klikkaa pelialuetta asettaaksesi.`);
+</script>
+</body>
+</html>
