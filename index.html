@@ -402,7 +402,6 @@ select option:checked{
 /*** Directions bitmask ***/
 const N=1, E=2, S=4, W=8;
 
-const LS_LAST_PUZZLE = "iqc_last_puzzle_id_v1";
 
 /*** Shapes ***/
 const SHAPES = {
@@ -1161,22 +1160,6 @@ function loadPuzzleIndex(idx){
   updateNavButtons();
 }
 
-function rememberCurrentPuzzleId(){
-  const sel = document.getElementById("puzzleSelect");
-  if(!sel) return;
-  const id = sel.value;
-  if(id) localStorage.setItem(LS_LAST_PUZZLE, id);
-}
-
-function restoreLastPuzzleOrDefault(){
-  const lastId = localStorage.getItem(LS_LAST_PUZZLE);
-  if(lastId && selectPuzzleById(lastId)) return;
-
-  // fallback: eka pulma
-  if(puzzles.length){
-    selectPuzzleById(puzzles[0].id);
-  }
-}
 
 
 async function loadPuzzlesAuto(){
@@ -1238,28 +1221,28 @@ async function loadPuzzlesAuto(){
     }
   }
   
-puzzleSelect.addEventListener("change", ()=>{
-  const v = puzzleSelect.value;
-  if(v === "") return;
-  loadPuzzleIndex(parseInt(v,10));
-  rememberCurrentPuzzleId();
-});
+
+
+const LS_LAST = "iqc_last_puzzle_index_v1";
 
 prevBtn.addEventListener("click", ()=>{
   if(currentPuzzleIndex>0){
-    puzzleSelect.value = String(currentPuzzleIndex-1);
-    loadPuzzleIndex(currentPuzzleIndex-1);
-	rememberCurrentPuzzleId();
+    const idx = currentPuzzleIndex - 1;
+    puzzleSelect.value = String(idx);
+    localStorage.setItem(LS_LAST, String(idx));
+    loadPuzzleIndex(idx);
   }
 });
 
 nextBtn.addEventListener("click", ()=>{
   if(currentPuzzleIndex < gamePuzzles.length-1){
-    puzzleSelect.value = String(currentPuzzleIndex+1);
-    loadPuzzleIndex(currentPuzzleIndex+1);
-	rememberCurrentPuzzleId();
+    const idx = currentPuzzleIndex + 1;
+    puzzleSelect.value = String(idx);
+    localStorage.setItem(LS_LAST, String(idx));
+    loadPuzzleIndex(idx);
   }
 });
+
 
 resetBtn.addEventListener("click", ()=>{
   if(currentPuzzle) loadPuzzleIndex(currentPuzzleIndex);
