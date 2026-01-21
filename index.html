@@ -246,7 +246,8 @@ select option:checked{
       align-items:center;
       cursor:pointer;
       user-select:none;
-      min-height: 84px;
+      height: 88px;
+	  min-height: 0px;
       position:relative;
     }
     .thumb svg {
@@ -378,7 +379,7 @@ select option:checked{
   </div>
 
   <div class="card">
-    <div class="hd">
+    <div class="hd" style="display:none;">
       <div class="title">Palat</div>
     </div>
     <div class="bd">
@@ -763,7 +764,7 @@ function renderTray(){
     const top = document.createElement("div");
     top.className = "rowTop";
     top.innerHTML = `<div class="pidBig">Pala ${pid}</div>
-      <div class="meta"><span>valittu: ${ui.sideMode}</span><span>•</span><span>${ui.rot}°</span></div>`;
+      <div class="meta"><span> ${ui.sideMode}</span><span>•</span><span>${ui.rot}°</span></div>`;
     card.appendChild(top);
 
     const thumbsRow = document.createElement("div");
