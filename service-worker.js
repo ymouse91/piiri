@@ -1,9 +1,9 @@
 /* Minimal SW: cache app shell */
-const CACHE = "iqc_iphone-v1";
+const CACHE = "iqciphone_puzzles-v1";
 const ASSETS = [
   "./",
   "./index-iphone.html",
-  "./manifest.webmanifest",
+  "./manifest-iphone.webmanifest",
   "./iqc_puzzles.json",
   "./icon192.png"
 ];
