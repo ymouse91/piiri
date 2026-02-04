@@ -5,7 +5,7 @@ const ASSETS = [
   "./index-iphone.html",
   "./manifest-iphone.webmanifest",
   "./iqc_puzzles.json",
-  "./icon192.png"
+  "./icon192iphone.png"
 ];
 
 self.addEventListener("install", (event) => {

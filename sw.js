@@ -1,5 +1,5 @@
 /* Minimal SW: cache app shell */
-const CACHE = "iqc_puzzles-v3";
+const CACHE = "iqc_puzzles-v4";
 const ASSETS = [
   "./",
   "./index.html",
